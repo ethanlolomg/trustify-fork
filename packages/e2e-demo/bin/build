@@ -8,6 +8,8 @@ DEMO_SITE_DIR=$(pwd)
 # Copy the production contract
 cp -fr $DEMO_SITE_DIR/bin/fixtures/contracts $DEMO_SITE_DIR
 
+echo "Swaping to postgres as database provider"
+
 # Swap to postgres as database provider
 sed -ie 's/sqlite/postgresql/g' $DEMO_SITE_DIR/prisma/schema.prisma
 sed -ie 's/sqlite/postgresql/g' $DEMO_SITE_DIR/prisma/migrations/migration_lock.toml
@@ -17,8 +19,13 @@ sed -ie 's/sqlite/postgresql/g' $DEMO_SITE_DIR/prisma/migrations/migration_lock.
 rm -f $DEMO_SITE_DIR/prisma/schema.prismae
 rm -f $DEMO_SITE_DIR/prisma/migrations/migration_lock.tomle
 
+echo "Generating the prisma client"
+echo DATABASE_URL
+
 # Generate the prisma client
 prisma generate
+
+echo "Building app"
 
 # Build the app
 next build
